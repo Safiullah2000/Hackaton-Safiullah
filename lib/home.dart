@@ -8,28 +8,38 @@ import 'package:hackaton/cart.dart';
 import 'package:hackaton/favorite.dart';
 import 'package:hackaton/login.dart';
 
-class home extends StatefulWidget {
-  static var images = [
-    "images/shoes.jfif",
-    "images/suit.jpg",
-    "images/shirts.jpg",
-    "images/t-shirts.jfif",
-    "images/joggers.jfif",
-    "images/jeans.jfif",
-    "images/track_suits.jfif"
-  ];
-  static var names = [
-    "Shoes",
-    "Suit",
-    "Shirts",
-    "T-Shirts",
-    "Joggers",
-    "Jeans",
-    "Track Suits"
-  ];
-  static var pieces = ["10", "5", "18", "9", "0", "3", "22"];
-  static var prices = ["50", "100", "150", "200", "250", "300", "350", "400"];
+List<IconData> fav = [
+  Icons.favorite_outline,
+  Icons.favorite_outline,
+  Icons.favorite_outline,
+  Icons.favorite_outline,
+  Icons.favorite_outline,
+  Icons.favorite_outline,
+  Icons.favorite_outline,
+];
 
+var images = [
+  "images/shoes.jfif",
+  "images/suit.jpg",
+  "images/shirts.jpg",
+  "images/t-shirts.jfif",
+  "images/joggers.jfif",
+  "images/jeans.jfif",
+  "images/track_suits.jfif"
+];
+var names = [
+  "Shoes",
+  "Suit",
+  "Shirts",
+  "T-Shirts",
+  "Joggers",
+  "Jeans",
+  "Track Suits"
+];
+var pieces = ["10", "5", "18", "9", "0", "3", "22"];
+var prices = ["50", "100", "150", "200", "250", "300", "350", "400"];
+
+class home extends StatefulWidget {
   const home({Key? key}) : super(key: key);
 
   @override
@@ -109,7 +119,12 @@ class _homeState extends State<home> {
         ),
         actions: [
           IconButton(
-              onPressed: () {},
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => favorite()),
+                );
+              },
               icon: Icon(
                 Icons.favorite,
                 color: Colors.red,
@@ -127,118 +142,128 @@ class _homeState extends State<home> {
               ))
         ],
       ),
-      body: Column(
-        children: [
-          SizedBox(
-            height: 100,
-            child: ListView.builder(
-                scrollDirection: Axis.horizontal,
-                shrinkWrap: true,
-                itemCount: home.names.length,
-                itemBuilder: (context, index) {
-                  return Card(
-                    elevation: 5,
-                    child: Container(
-                      height: 100,
-                      width: 210,
-                      child: ListTile(
-                        leading:
-                            Image(image: AssetImage("${home.images[index]}")),
-                        title: Text(
-                          "${home.names[index]}",
-                          style: TextStyle(
-                              fontSize: 20, fontWeight: FontWeight.bold),
-                        ),
-                        subtitle: Text(
-                          "${home.pieces[index]} pieces left",
-                          style: TextStyle(
-                              fontSize: 15, color: Colors.blue.shade800),
+      body: SingleChildScrollView(
+        child: Column(
+          children: [
+            SizedBox(
+              height: 100,
+              child: ListView.builder(
+                  scrollDirection: Axis.horizontal,
+                  shrinkWrap: true,
+                  itemCount: names.length,
+                  itemBuilder: (context, index) {
+                    return Card(
+                      elevation: 10,
+                      child: Container(
+                        height: 100,
+                        width: 210,
+                        child: ListTile(
+                          leading: Image(image: AssetImage("${images[index]}")),
+                          title: Text(
+                            "${names[index]}",
+                            style: TextStyle(
+                                fontSize: 20, fontWeight: FontWeight.bold),
+                          ),
+                          subtitle: Text(
+                            "${pieces[index]} pieces left",
+                            style: TextStyle(
+                                fontSize: 15, color: Colors.blue.shade800),
+                          ),
                         ),
                       ),
-                    ),
-                  );
-                }),
-          ),
-          SizedBox(
-            height: 420,
-            child: ListView.builder(
-                shrinkWrap: true,
-                scrollDirection: Axis.vertical,
-                itemCount: home.names.length,
-                itemBuilder: (context, index) {
-                  return Card(
-                    margin: EdgeInsets.all(20),
-                    elevation: 5,
-                    child: Container(
-                      height: 250,
-                      width: 200,
-                      child: Stack(
-                        children: [
-                          Positioned(
-                            left: 10,
-                            top: 5,
-                            child: Icon(
-                              Icons.favorite,
-                              color: Colors.red,
-                            ),
-                          ),
-                          Positioned(
-                            right: 10,
-                            top: 5,
-                            child: Container(
-                              padding: EdgeInsets.all(5),
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(20),
-                                color: Colors.orange.shade900,
-                              ),
-                              child: Text(
-                                "30%off",
-                                style: TextStyle(color: Colors.white),
-                              ),
-                            ),
-                          ),
-                          Positioned(
-                            left: 10,
-                            top: 15,
-                            right: 10,
-                            child: Image(
-                              image: AssetImage("${home.images[index]}"),
-                              height: 150,
-                              width: 150,
-                            ),
-                          ),
-                          Positioned(
-                            bottom: 60,
-                            left: 10,
-                            child: Text("${home.names[index]}",
-                                style: TextStyle(
-                                  fontSize: 18,
-                                  fontWeight: FontWeight.bold,
-                                )),
-                          ),
-                          Positioned(
-                            bottom: 60,
-                            right: 10,
-                            child: Text(
-                              "\$${home.prices[index]}",
-                              style: TextStyle(fontWeight: FontWeight.bold),
-                            ),
-                          ),
-                          Positioned(
-                              bottom: 30,
-                              right: 6,
-                              child: IconButton(
-                                  onPressed: () {
-                                    cart.cartIndex.add(index);
+                    );
+                  }),
+            ),
+            SizedBox(
+              height: MediaQuery.of(context).size.height,
+              child: ListView.builder(
+                  shrinkWrap: true,
+                  scrollDirection: Axis.vertical,
+                  itemCount: names.length,
+                  itemBuilder: (context, index) {
+                    return Card(
+                      margin: EdgeInsets.all(20),
+                      elevation: 5,
+                      child: Container(
+                        height: 250,
+                        width: 200,
+                        child: Stack(
+                          children: [
+                            Positioned(
+                                left: 8,
+                                top: 5,
+                                child: GestureDetector(
+                                  onTap: () {
+                                    favIndex.add(index);
+                                    setState(() {
+                                      fav[index] = Icons.favorite;
+                                    });
                                   },
-                                  icon: Icon(Icons.shopping_cart)))
-                        ],
+                                  child: Icon(
+                                    fav[index],
+                                    color: Colors.red,
+                                    size: 30,
+                                  ),
+                                )),
+                            Positioned(
+                              right: 10,
+                              top: 5,
+                              child: Container(
+                                padding: EdgeInsets.all(5),
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(20),
+                                  color: Colors.orange.shade900,
+                                ),
+                                child: Text(
+                                  "30%off",
+                                  style: TextStyle(color: Colors.white),
+                                ),
+                              ),
+                            ),
+                            Positioned(
+                              left: 10,
+                              top: 15,
+                              right: 10,
+                              child: Image(
+                                image: AssetImage("${images[index]}"),
+                                height: 150,
+                                width: 150,
+                              ),
+                            ),
+                            Positioned(
+                              bottom: 60,
+                              left: 10,
+                              child: Text("${names[index]}",
+                                  style: TextStyle(
+                                    fontSize: 18,
+                                    fontWeight: FontWeight.bold,
+                                  )),
+                            ),
+                            Positioned(
+                              bottom: 60,
+                              right: 10,
+                              child: Text(
+                                "\$${prices[index]}",
+                                style: TextStyle(fontWeight: FontWeight.bold),
+                              ),
+                            ),
+                            Positioned(
+                                bottom: 20,
+                                right: 0,
+                                child: IconButton(
+                                    iconSize: 30,
+                                    onPressed: () {
+                                      cartIndex.add(index);
+                                    },
+                                    icon: Icon(Icons.shopping_cart)))
+                          ],
+                        ),
                       ),
-                    ),
-                  );
-                }),
-          ),
-        ],
+                    );
+                  }),
+            ),
+          ],
+        ),
       ),
     );
   }
